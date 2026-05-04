@@ -7,16 +7,16 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
-//                 script {
-//                     if (isUnix()) {
-//                         echo "Running on a Linux/Unix-based agent"
-//                         sh 'uname -a'
-//                     } else {
-//                         echo "Running on a Windows-based agent"
-//                         bat 'ver'
-//                     }
-//                     sh 'mvn -B -DskipTests clean package'
-//                 }
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                }
             }
         }
     }
